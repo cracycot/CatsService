@@ -8,9 +8,9 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>com.example</groupId>
-  <artifactId>view</artifactId>
+  <artifactId>logic</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>view</name>
+  <name>logic</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>

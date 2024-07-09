@@ -1,20 +1,23 @@
 package controllers;
 
 import dao.CatDAO;
+import dao.Dao;
 import models.Cat;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
-public class CatController implements CatDAO {
+public class CatController implements Dao<Cat> {
 
 
     @Override
     public void create(Cat cat) {
 
+
     }
 
     @Override
-    public Cat read(int id) {
+    public Optional<Cat> read(int id) {
         return null;
     }
 

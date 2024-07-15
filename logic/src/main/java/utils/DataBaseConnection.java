@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class DataBaseConnection {
     private static final String DB_DRIVER = "org.postgresql.Driver";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/yourdatabasename";
-    private static final String DB_USERNAME = "admin";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/catsandowners";
+    private static final String DB_USERNAME = "kirilllesniak";
     private static final String DB_PASSWORD = "";
 
     public Connection getConnection() {

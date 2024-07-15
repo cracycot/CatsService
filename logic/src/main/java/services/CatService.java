@@ -16,7 +16,7 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     Connection connection = getConnection();
 
     @Override
-    public void create(Cat cat) {
+    public void create(Cat cat) throws SQLException {
         PreparedStatement preparedStatement  = null;
         String sql = "INSERT INTO cats (name, dateBirth, breed, idOwner, id) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -30,11 +30,20 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
         }
     }
 
     @Override
     public Optional<Cat> read(int id) {
+
+        PreparedStatement preparedStatement = null;
         return null;
     }
 

@@ -4,6 +4,7 @@ import models.Cat;
 import services.CatService;
 import utils.DataBaseConnection;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -15,8 +16,7 @@ import java.util.Locale;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws SQLException {
         LocalDate dateOfBirth = LocalDate.of(2005, 12, 29);
 
         Cat cat = new Cat();

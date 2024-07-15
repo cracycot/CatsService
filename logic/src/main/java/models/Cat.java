@@ -1,14 +1,25 @@
 package models;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class Cat {
     private String name;
-    private String dateBirth;
+    private LocalDate dateBirth;
     private String breed;
-    private String idOwner;
+    private int idOwner;
     private static int idGenerate;
     private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private HashMap<Integer, Cat> friends;
 
     public String getName() {
@@ -27,19 +38,19 @@ public class Cat {
         this.breed = breed;
     }
 
-    public String getIdOwner() {
+    public int getIdOwner() {
         return idOwner;
     }
 
-    public void setIdOwner(String idOwner) {
+    public void setIdOwner(int idOwner) {
         this.idOwner = idOwner;
     }
 
-    public String getDateBirth() {
+    public LocalDate getDateBirth() {
         return dateBirth;
     }
 
-    public void setDateBirth(String dateBirth) {
+    public void setDateBirth(LocalDate dateBirth) {
         this.dateBirth = dateBirth;
     }
 }

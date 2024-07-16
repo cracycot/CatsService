@@ -1,13 +1,39 @@
 package models;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Owner {
     private String name;
-    private String dateBirth;
-    private static int idGenerate;
+    private LocalDate dateBirth;
+    private static int idGenerate = 0;
     private int id;
     private HashMap<Integer, Cat> ownersCats;
+
+    public static class Builder {
+        public static Owner owner;
+
+        public Builder() {
+            owner.id = idGenerate;
+            idGenerate += 1;
+        }
+
+        public Builder name(String name) {
+            owner.name = name;
+            return this;
+        }
+
+        public Builder dateBirth(LocalDate dateBirth) {
+            owner.dateBirth = dateBirth;
+            return this;
+        }
+
+        public Owner build() {
+            return owner;s
+        }
+
+    }
 
     public String getName() {
         return name;
@@ -17,11 +43,11 @@ public class Owner {
         this.name = name;
     }
 
-    public String getDateBirth() {
+    public LocalDate getDateBirth() {
         return dateBirth;
     }
 
-    public void setDateBirth(String dateBirth) {
+    public void setDateBirth(LocalDate dateBirth) {
         this.dateBirth = dateBirth;
     }
 

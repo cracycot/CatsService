@@ -7,6 +7,7 @@ import utils.DataBaseConnection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -32,6 +33,19 @@ public class App
 //        Cat cat1 = new Cat.Builder().name("sa").breed("sakska").dateBirth(dateOfBirth).id(1).idOwner(1).build();
 
         Cat cat1 = catService.read(0);
-        System.out.println(cat1);
+//        System.out.println(cat1);
+
+        Cat cat2 = new Cat.Builder().
+                name("Ivan")
+                .id(1)
+                .idOwner(1)
+                .breed("kal")
+                .dateBirth(dateOfBirth)
+                .build();
+        catService.create(cat2);
+        ArrayList<Cat> cats = catService.getAll();
+        for (int i  = 0; i < cats.size(); i ++) {
+            System.out.println(cats.get(i));
+        }
     }
 }

@@ -10,7 +10,7 @@ public interface OwnerDAO {
 
     Owner read(int id) throws SQLException;
 
-    ArrayList<Owner> getAll();
+    ArrayList<Owner> getAll() throws SQLException;
 
     void remove(int id);
 }

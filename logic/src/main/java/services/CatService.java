@@ -16,22 +16,22 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     @Override
     public void create(Cat cat) throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement preparedStatement  = null;
+        PreparedStatement prepareStatement  = null;
         String sql = "INSERT INTO cats (name, dateBirth, breed, idOwner, id) VALUES (?, ?, ?, ?, ?)";
         try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, cat.getName());
-            preparedStatement.setDate(2, java.sql.Date.valueOf(cat.getDateBirth()));
-            preparedStatement.setString(3, cat.getBreed());
-            preparedStatement.setInt(4, cat.getIdOwner());
-            preparedStatement.setInt(5, cat.getId());
+            prepareStatement = connection.prepareStatement(sql);
+            prepareStatement.setString(1, cat.getName());
+            prepareStatement.setDate(2, java.sql.Date.valueOf(cat.getDateBirth()));
+            prepareStatement.setString(3, cat.getBreed());
+            prepareStatement.setInt(4, cat.getIdOwner());
+            prepareStatement.setInt(5, cat.getId());
 
-            preparedStatement.executeUpdate();
+            prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
+            if (prepareStatement != null) {
+                prepareStatement.close();
             }
             if (connection != null) {
                 connection.close();
@@ -42,13 +42,13 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     @Override
     public Cat read(int id) throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement preparedStatement = null;
+        PreparedStatement prepareStatement = null;
         String sql = "SELECT * FROM cats WHERE id = ?";
         Cat cat = null;
         try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
+            prepareStatement = connection.prepareStatement(sql);
+            prepareStatement.setInt(1, id);
+            ResultSet rs = prepareStatement.executeQuery();
             if (rs.next()) {
                 String name = rs.getString(1);
                 LocalDate dateBirth = rs.getDate(2).toLocalDate();
@@ -64,8 +64,8 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
+            if (prepareStatement != null) {
+                prepareStatement.close();
             }
             if (connection != null) {
                 connection.close();
@@ -75,8 +75,40 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     }
 
     @Override
-    public ArrayList<Cat> getAll() {
-        return null;
+    public ArrayList<Cat> getAll() throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement prepareStatement = null;
+        String sql = "SELECT * FROM cats";
+        ArrayList<Cat> cats = new ArrayList<>();
+        try {
+            prepareStatement = connection.prepareStatement(sql);
+            ResultSet rs = prepareStatement.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                LocalDate dateBirth = rs.getDate(2).toLocalDate();
+                String breed = rs.getString(3);
+                int idOwner = rs.getInt(4);
+                int id = rs.getInt(5);
+                Cat cat = new Cat.Builder().name(name)
+                        .dateBirth(dateBirth)
+                        .breed(breed)
+                        .idOwner(idOwner)
+                        .id(id)
+                        .build();
+                cats.add(cat);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (prepareStatement != null) {
+                prepareStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return cats;
     }
 
     @Override

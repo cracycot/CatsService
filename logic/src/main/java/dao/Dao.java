@@ -10,7 +10,7 @@ public interface Dao<T> {
 
     Cat read(int id) throws SQLException;
 
-    Collection<T> getAll();
+    Collection<T> getAll() throws SQLException;
 
     void remove(int id);
 }

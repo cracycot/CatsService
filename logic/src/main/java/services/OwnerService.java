@@ -62,10 +62,37 @@ public class OwnerService extends DataBaseConnection implements OwnerDAO {
     }
 
     @Override
-    public ArrayList<Owner> getAll() {
-        return null;
-    }
+    public ArrayList<Owner> getAll()   throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement prepareStatement = null;
+        String sql = "SELECT * FROM owners";
+        ArrayList<Owner> owners = new ArrayList<>();
+        try {
+            prepareStatement = connection.prepareStatement(sql);
+            ResultSet rs = prepareStatement.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                LocalDate dateBirth = rs.getDate(2).toLocalDate();
+                int id = rs.getInt(3);
+                Owner owner = new Owner.Builder().name(name)
+                        .dateBirth(dateBirth)
+                        .id(id)
+                        .build();
+                owners.add(owner);
+            }
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (prepareStatement != null) {
+                prepareStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return owners;
+    }
     @Override
     public void remove(int id) {
 

@@ -64,12 +64,12 @@ public class OwnerService extends DataBaseConnection implements OwnerDAO {
     @Override
     public ArrayList<Owner> getAll()   throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement prepareStatement = null;
+        PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM owners";
         ArrayList<Owner> owners = new ArrayList<>();
         try {
-            prepareStatement = connection.prepareStatement(sql);
-            ResultSet rs = prepareStatement.executeQuery();
+            preparedStatement = connection.prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String name = rs.getString(1);
                 LocalDate dateBirth = rs.getDate(2).toLocalDate();
@@ -82,10 +82,10 @@ public class OwnerService extends DataBaseConnection implements OwnerDAO {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
-            if (prepareStatement != null) {
-                prepareStatement.close();
+            if (preparedStatement != null) {
+                preparedStatement.close();
             }
             if (connection != null) {
                 connection.close();
@@ -94,7 +94,26 @@ public class OwnerService extends DataBaseConnection implements OwnerDAO {
         return owners;
     }
     @Override
-    public void remove(int id) {
+    public void remove(int id) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
+        String sql = "DELETE FROM owners WHERE 'id' = ? LIMIT 1";
 
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 }

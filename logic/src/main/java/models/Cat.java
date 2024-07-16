@@ -9,8 +9,41 @@ public class Cat {
     private LocalDate dateBirth;
     private String breed;
     private int idOwner;
-    private static int idGenerate;
+    private static int idGenerate = 0;
     private int id;
+
+    public static class Builder {
+        public static Cat cat;
+
+        public Builder() {
+            cat.id = idGenerate;
+            idGenerate += 1;
+        }
+
+        public Builder name(String name) {
+            cat.name = name;
+            return this;
+        }
+
+        public Builder dateBirth(LocalDate dateBirth) {
+            cat.dateBirth = dateBirth;
+            return this;
+        }
+
+        public Builder breed(String breed) {
+            cat.breed = breed;
+            return this;
+        }
+
+        public Builder idOwner(int idOwner) {
+            cat.idOwner = idOwner;
+            return this;
+        }
+
+        public Cat build() {
+            return cat;
+        }
+    }
 
     public int getId() {
         return id;

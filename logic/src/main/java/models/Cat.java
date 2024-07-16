@@ -16,8 +16,10 @@ public class Cat {
         public static Cat cat;
 
         public Builder() {
-            cat.id = idGenerate;
-            idGenerate += 1;
+            cat = new Cat();
+            // проблема с БД
+//            cat.id = idGenerate;
+//            idGenerate += 1;
         }
 
         public Builder name(String name) {
@@ -40,9 +42,20 @@ public class Cat {
             return this;
         }
 
+        //Подумать над удалением этого метода
+        public Builder id(int id) {
+            cat.id = id;
+            return this;
+        }
+
         public Cat build() {
             return cat;
         }
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + dateBirth + " " + breed + " " + idOwner + " " + id;
     }
 
     public int getId() {
@@ -82,6 +95,7 @@ public class Cat {
     public LocalDate getDateBirth() {
         return dateBirth;
     }
+
 
     public void setDateBirth(LocalDate dateBirth) {
         this.dateBirth = dateBirth;

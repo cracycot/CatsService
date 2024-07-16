@@ -29,5 +29,9 @@ public class App
         CatService catService = new CatService();
 
         catService.create(cat);
+//        Cat cat1 = new Cat.Builder().name("sa").breed("sakska").dateBirth(dateOfBirth).id(1).idOwner(1).build();
+
+        Cat cat1 = catService.read(0);
+        System.out.println(cat1);
     }
 }

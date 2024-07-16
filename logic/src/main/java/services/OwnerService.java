@@ -1,12 +1,15 @@
 package services;
 
 import dao.OwnerDAO;
+import models.Cat;
 import models.Owner;
 import utils.DataBaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OwnerService extends DataBaseConnection implements OwnerDAO {
@@ -28,8 +31,34 @@ public class OwnerService extends DataBaseConnection implements OwnerDAO {
     }
 
     @Override
-    public Owner read(int id) {
-        return null;
+    public Owner read(int id) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT * FROM owners WHERE id = ?";
+        Owner owner = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                String name = rs.getString(1);
+                LocalDate dateBirth = rs.getDate(2).toLocalDate();
+                owner = new Owner.Builder().name(name)
+                        .dateBirth(dateBirth)
+                        .id(id)
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return owner;
     }
 
     @Override

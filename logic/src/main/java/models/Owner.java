@@ -15,8 +15,9 @@ public class Owner {
         public static Owner owner;
 
         public Builder() {
-            owner.id = idGenerate;
-            idGenerate += 1;
+            owner = new Owner();
+//            owner.id = idGenerate;
+//            idGenerate += 1;
         }
 
         public Builder name(String name) {
@@ -29,10 +30,20 @@ public class Owner {
             return this;
         }
 
-        public Owner build() {
-            return owner;s
+        public Builder id(int id) {
+            owner.id = id;
+            return this;
         }
 
+        public Owner build() {
+            return owner;
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + dateBirth + " " + id;
     }
 
     public String getName() {

@@ -16,22 +16,22 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     @Override
     public void create(Cat cat) throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement prepareStatement  = null;
+        PreparedStatement preparedStatement  = null;
         String sql = "INSERT INTO cats (name, dateBirth, breed, idOwner, id) VALUES (?, ?, ?, ?, ?)";
         try {
-            prepareStatement = connection.prepareStatement(sql);
-            prepareStatement.setString(1, cat.getName());
-            prepareStatement.setDate(2, java.sql.Date.valueOf(cat.getDateBirth()));
-            prepareStatement.setString(3, cat.getBreed());
-            prepareStatement.setInt(4, cat.getIdOwner());
-            prepareStatement.setInt(5, cat.getId());
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, cat.getName());
+            preparedStatement.setDate(2, java.sql.Date.valueOf(cat.getDateBirth()));
+            preparedStatement.setString(3, cat.getBreed());
+            preparedStatement.setInt(4, cat.getIdOwner());
+            preparedStatement.setInt(5, cat.getId());
 
-            prepareStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (prepareStatement != null) {
-                prepareStatement.close();
+            if (preparedStatement != null) {
+                preparedStatement.close();
             }
             if (connection != null) {
                 connection.close();
@@ -42,13 +42,13 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     @Override
     public Cat read(int id) throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement prepareStatement = null;
+        PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM cats WHERE id = ?";
         Cat cat = null;
         try {
-            prepareStatement = connection.prepareStatement(sql);
-            prepareStatement.setInt(1, id);
-            ResultSet rs = prepareStatement.executeQuery();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 String name = rs.getString(1);
                 LocalDate dateBirth = rs.getDate(2).toLocalDate();
@@ -64,8 +64,8 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (prepareStatement != null) {
-                prepareStatement.close();
+            if (preparedStatement != null) {
+                preparedStatement.close();
             }
             if (connection != null) {
                 connection.close();
@@ -77,12 +77,12 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     @Override
     public ArrayList<Cat> getAll() throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement prepareStatement = null;
+        PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM cats";
         ArrayList<Cat> cats = new ArrayList<>();
         try {
-            prepareStatement = connection.prepareStatement(sql);
-            ResultSet rs = prepareStatement.executeQuery();
+            preparedStatement = connection.prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String name = rs.getString(1);
                 LocalDate dateBirth = rs.getDate(2).toLocalDate();
@@ -101,8 +101,8 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            if (prepareStatement != null) {
-                prepareStatement.close();
+            if (preparedStatement != null) {
+                preparedStatement.close();
             }
             if (connection != null) {
                 connection.close();
@@ -112,7 +112,26 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(int id) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
+        String sql = "DELETE FROM cats WHERE id = ?";
 
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 }

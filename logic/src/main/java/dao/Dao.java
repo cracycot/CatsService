@@ -12,5 +12,5 @@ public interface Dao<T> {
 
     Collection<T> getAll() throws SQLException;
 
-    void remove(int id);
+    void remove(int id) throws SQLException;
 }

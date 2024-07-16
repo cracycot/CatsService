@@ -12,5 +12,5 @@ public interface OwnerDAO {
 
     ArrayList<Owner> getAll() throws SQLException;
 
-    void remove(int id);
+    void remove(int id) throws SQLException;
 }

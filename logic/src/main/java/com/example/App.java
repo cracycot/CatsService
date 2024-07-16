@@ -42,10 +42,13 @@ public class App
                 .breed("kal")
                 .dateBirth(dateOfBirth)
                 .build();
+
         catService.create(cat2);
+        catService.remove(0);
         ArrayList<Cat> cats = catService.getAll();
         for (int i  = 0; i < cats.size(); i ++) {
             System.out.println(cats.get(i));
         }
+
     }
 }

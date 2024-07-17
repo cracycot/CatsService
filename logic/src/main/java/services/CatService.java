@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class CatService extends DataBaseConnection implements Dao<Cat> {
 
     void setFriends(int id, HashMap<Integer, Cat> friends, Connection connection) throws SQLException {
-        String sql = "INSET INTO catsfriends (id, id1) VALUES (?, ?)";
+        String sql = "INSERT INTO catsfriends (id, id1) VALUES (?, ?)";
         PreparedStatement preparedStatement  = null;
         try {
             for (int i : friends.keySet()) {
@@ -24,6 +24,7 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
                 preparedStatement.setInt(2, i);
 
                 preparedStatement.executeUpdate();
+                System.out.println(i);
             }
         }  catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +68,7 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
     }
 
     void delFriends(int id, Connection connection) throws SQLException {
-        String sql = "DELETE * FROM friends WHERE id = ?";
+        String sql = "DELETE * FROM catsfriends WHERE id = ?";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -192,7 +193,7 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
-            
+
             delFriends(id, connection);
 
         } catch (SQLException e) {

@@ -1,3 +1,10 @@
 /Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/com/example/App.java
+/Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/dao/CatDAO.java
+/Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/dao/Dao.java
+/Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/dao/OwnerDAO.java
 /Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/models/Cat.java
 /Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/models/Owner.java
+/Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/services/CatService.java
+/Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/services/OwnerService.java
+/Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/utils/DataBaseConnection.java
+/Users/kirilllesniak/Desktop/ITMO/JAVA/LAB2/LAB2/logic/src/main/java/utils/TruncateTable.java

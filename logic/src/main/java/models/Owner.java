@@ -9,7 +9,9 @@ public class Owner {
     private LocalDate dateBirth;
     private static int idGenerate = 0;
     private int id;
-    private HashMap<Integer, Cat> ownersCats;
+    private HashMap<Integer, Cat> cats;
+
+
 
     public static class Builder {
         public static Owner owner;
@@ -27,6 +29,11 @@ public class Owner {
 
         public Builder dateBirth(LocalDate dateBirth) {
             owner.dateBirth = dateBirth;
+            return this;
+        }
+
+        public Builder cats(HashMap<Integer, Cat> cats) {
+            owner.cats = cats;
             return this;
         }
 
@@ -50,6 +57,13 @@ public class Owner {
         return name;
     }
 
+    public HashMap<Integer, Cat> getCats() {
+        return cats;
+    }
+
+    public void setCats(HashMap<Integer, Cat> cats) {
+        this.cats = cats;
+    }
     public void setName(String name) {
         this.name = name;
     }

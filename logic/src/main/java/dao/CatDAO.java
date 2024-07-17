@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class CatDAO extends DataBaseConnection implements DAO<Cat> {
 
-    void setFriends(int id, HashMap<Integer, Cat> friends, Connection connection) throws SQLException {
+    private void setFriends(int id, HashMap<Integer, Cat> friends, Connection connection) throws SQLException {
         String sql = "INSERT INTO catsfriends (id, id1) VALUES (?, ?)";
         PreparedStatement preparedStatement  = null;
         try {
@@ -29,7 +29,7 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
 
     }
 
-    HashMap<Integer, Cat> getFriends(int id, Connection connection) throws  SQLException {
+    private HashMap<Integer, Cat> getFriends(int id, Connection connection) throws  SQLException {
         String sql = "SELECT id1 FROM catsfriends WHERE id = ?";
         PreparedStatement preparedStatement = null;
         HashMap<Integer, Cat> friends = new HashMap<>();
@@ -68,8 +68,8 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
 
     }
 
-    void delFriends(int id, Connection connection) throws SQLException {
-        String sql = "DELETE * FROM catsfriends WHERE id = ?";
+    private void delFriends(int id, Connection connection) throws SQLException {
+        String sql = "DELETE FROM catsfriends WHERE id = ?";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -114,7 +114,7 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM cats WHERE id = ?";
-        Cat cat = null;
+        Cat cat = new Cat();
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
@@ -146,49 +146,48 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
         return cat;
     }
 
-    @Override
-    public ArrayList<Cat> getAll() throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM cats";
-        ArrayList<Cat> cats = new ArrayList<>();
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                String name = rs.getString(1);
-                LocalDate dateBirth = rs.getDate(2).toLocalDate();
-                String breed = rs.getString(3);
-                int idOwner = rs.getInt(4);
-                int id = rs.getInt(5);
-                Cat cat = new Cat.Builder().name(name)
-                        .dateBirth(dateBirth)
-                        .breed(breed)
-                        .idOwner(idOwner)
-                        .id(id)
-                        .build();
-                cats.add(cat);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-        return cats;
-    }
+//    @Override
+//    public ArrayList<Cat> getAll() throws SQLException {
+//        Connection connection = getConnection();
+//        PreparedStatement preparedStatement = null;
+//        String sql = "SELECT * FROM cats";
+//        ArrayList<Cat> cats = new ArrayList<>();
+//        try {
+//            preparedStatement = connection.prepareStatement(sql);
+//            ResultSet rs = preparedStatement.executeQuery();
+//            while (rs.next()) {
+//                String name = rs.getString(1);
+//                LocalDate dateBirth = rs.getDate(2).toLocalDate();
+//                String breed = rs.getString(3);
+//                int idOwner = rs.getInt(4);
+//                int id = rs.getInt(5);
+//                Cat cat = new Cat.Builder().name(name)
+//                        .dateBirth(dateBirth)
+//                        .breed(breed)
+//                        .idOwner(idOwner)
+//                        .id(id)
+//                        .build();
+//                cats.add(cat);
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            if (preparedStatement != null) {
+//                preparedStatement.close();
+//            }
+//            if (connection != null) {
+//                connection.close();
+//            }
+//        }
+//        return cats;
+//    }
 
     @Override
     public void remove(int id) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
         String sql = "DELETE FROM cats WHERE id = ?";
-
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);

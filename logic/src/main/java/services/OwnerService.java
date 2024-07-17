@@ -1,7 +1,6 @@
 package services;
 
-import dao.OwnerDAO;
-import models.Cat;
+import dao.Dao;
 import models.Owner;
 import utils.DataBaseConnection;
 
@@ -12,10 +11,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class OwnerService extends DataBaseConnection implements OwnerDAO {
-    Connection connection = getConnection();
+public class OwnerService extends DataBaseConnection implements Dao<Owner> {
+
     @Override
     public void create(Owner owner) {
+        Connection connection = getConnection();
         PreparedStatement preparedStatement  = null;
         String sql = "INSERT INTO owners (name, dateBirth, id) VALUES (?, ?, ?)";
         try {

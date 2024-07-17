@@ -45,10 +45,10 @@ public class Cat {
         }
 
         //Подумать над удалением этого метода
-//        public Builder id(int id) {
-//            cat.id = id;
-//            return this;
-//        }
+        public Builder id(int id) {
+            cat.id = id;
+            return this;
+        }
 
         public Builder friends(HashMap<Integer, Cat> friends) {
             cat.friends = friends;

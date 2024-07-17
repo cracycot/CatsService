@@ -10,8 +10,74 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CatService extends DataBaseConnection implements Dao<Cat> {
+
+    void setFriends(int id, HashMap<Integer, Cat> friends, Connection connection) throws SQLException {
+        String sql = "INSET INTO catsfriends (id, id1) VALUES (?, ?)";
+        PreparedStatement preparedStatement  = null;
+        try {
+            for (int i : friends.keySet()) {
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, id);
+                preparedStatement.setInt(2, i);
+
+                preparedStatement.executeUpdate();
+            }
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        } // finally вызовется в вызываемом методе
+
+    }
+
+    HashMap<Integer, Cat> getFriends(int id, Connection connection) throws  SQLException {
+        String sql = "SELECT id1 FROM catsfriends WHERE id = ?";
+        PreparedStatement preparedStatement = null;
+        HashMap<Integer, Cat> friends = new HashMap<>();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int idFriend = rs.getInt(1);
+                String sqlForInnerRequest = "SELECT * FROM cats WHERE id = ?";
+                PreparedStatement preparedStatementForInnerRequest = connection.prepareStatement(sqlForInnerRequest);
+                preparedStatementForInnerRequest.setInt(1, idFriend);
+
+                ResultSet friendSet = preparedStatement.executeQuery();
+                String name = friendSet.getString(1);
+                LocalDate dateBirth = friendSet.getDate(2).toLocalDate();
+                String breed = friendSet.getString(3);
+                int idOwner = friendSet.getInt(4);
+                Cat friend = new Cat.Builder().name(name)
+                        .dateBirth(dateBirth)
+                        .breed(breed)
+                        .idOwner(idOwner)
+                        .id(idFriend)
+                        .build();
+
+                friends.put(idFriend, friend);
+            }
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        } // finally вызовется в вызываемом методе
+        return friends;
+
+    }
+
+    void delFriends(int id, Connection connection) throws SQLException {
+        String sql = "DELETE * FROM friends WHERE id = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        } // finally вызовется в вызываемом методе
+    }
 
     @Override
     public void create(Cat cat) throws SQLException {
@@ -27,6 +93,8 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
             preparedStatement.setInt(5, cat.getId());
 
             preparedStatement.executeUpdate();
+
+            setFriends(cat.getId(),cat.getFriends(), connection);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -54,11 +122,13 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
                 LocalDate dateBirth = rs.getDate(2).toLocalDate();
                 String breed = rs.getString(3);
                 int idOwner = rs.getInt(4);
+                HashMap<Integer, Cat> friends = getFriends(id, connection);
                 cat = new Cat.Builder().name(name)
                         .dateBirth(dateBirth)
                         .breed(breed)
                         .idOwner(idOwner)
                         .id(id)
+                        .friends(friends)
                         .build();
             }
         } catch (SQLException e) {
@@ -122,6 +192,8 @@ public class CatService extends DataBaseConnection implements Dao<Cat> {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+            
+            delFriends(id, connection);
 
         } catch (SQLException e) {
             e.printStackTrace();

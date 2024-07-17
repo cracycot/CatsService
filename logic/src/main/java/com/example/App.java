@@ -7,9 +7,7 @@ import utils.DataBaseConnection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Hello world!
@@ -49,6 +47,8 @@ public class App
         for (int i  = 0; i < cats.size(); i ++) {
             System.out.println(cats.get(i));
         }
+
+
 
     }
 }

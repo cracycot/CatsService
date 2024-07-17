@@ -9,6 +9,8 @@ public class Cat {
     private LocalDate dateBirth;
     private String breed;
     private int idOwner;
+    private HashMap<Integer, Cat> friends = new HashMap<>();
+
     private static int idGenerate = 0;
     private int id;
 
@@ -48,10 +50,16 @@ public class Cat {
             return this;
         }
 
+        public Builder friends(HashMap<Integer, Cat> friends) {
+            cat.friends = friends;
+            return this;
+        }
+
         public Cat build() {
             return cat;
         }
     }
+
 
     @Override
     public String toString() {
@@ -65,8 +73,6 @@ public class Cat {
     public void setId(int id) {
         this.id = id;
     }
-
-    private HashMap<Integer, Cat> friends;
 
     public String getName() {
         return name;
@@ -96,8 +102,15 @@ public class Cat {
         return dateBirth;
     }
 
-
     public void setDateBirth(LocalDate dateBirth) {
         this.dateBirth = dateBirth;
+    }
+
+    public HashMap<Integer, Cat> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(HashMap<Integer, Cat> friends) {
+        this.friends = friends;
     }
 }

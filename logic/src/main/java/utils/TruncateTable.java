@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class TruncateTable extends DataBaseConnection {
-
-
     public  void truncate(String tableName) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;

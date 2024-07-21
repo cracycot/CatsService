@@ -18,7 +18,6 @@ public class App {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(Cat.class);
         configuration.configure();
-        System.out.println(None);
         LocalDate dateOfBirth0 = LocalDate.of(2005, 12, 29);
         Set<Cat> cat1Friends = new HashSet<>();
 

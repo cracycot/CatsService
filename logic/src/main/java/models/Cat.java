@@ -1,18 +1,46 @@
 package models;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.CollectionId;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Set;
 
+@Entity
+@Table(name = "cats")
 public class Cat {
     private String name;
+
+    @Column(name = "datebirth")
     private LocalDate dateBirth;
     private String breed;
-    private int idOwner;
-    private HashMap<Integer, Cat> friends = new HashMap<>();
 
-    private static int idGenerate = 0;
-    private int id;
+    @Column(name = "idowner")
+    private Integer idOwner;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "catsfriends",
+//            joinColumns = @JoinColumn(name = "cat_id"),
+//            inverseJoinColumns = @JoinColumn(name = "friend_id")
+//    )
+//    Set<Cat> friends;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    public Cat(String name, LocalDate dateBirth, String breed, int idOwner, int id) {
+        this.name = name;
+        this.dateBirth = dateBirth;
+        this.breed = breed;
+        this.idOwner = idOwner;
+        this.id = id;
+    }
+
+    public Cat() {
+    }
 
     public static class Builder {
         public static Cat cat;
@@ -50,10 +78,10 @@ public class Cat {
             return this;
         }
 
-        public Builder friends(HashMap<Integer, Cat> friends) {
-            cat.friends = friends;
-            return this;
-        }
+//        public Builder friends(Set<Cat> friends) {
+//            cat.friends = friends;
+//            return this;
+//        }
 
         public Cat build() {
             return cat;
@@ -102,15 +130,17 @@ public class Cat {
         return dateBirth;
     }
 
+
     public void setDateBirth(LocalDate dateBirth) {
         this.dateBirth = dateBirth;
     }
 
-    public HashMap<Integer, Cat> getFriends() {
-        return friends;
-    }
 
-    public void setFriends(HashMap<Integer, Cat> friends) {
-        this.friends = friends;
-    }
+//        public Set<Cat> getFriends() {
+//            return friends;
+//        }
+//
+//        public void setFriends(Set<Cat> friends) {
+//            this.friends = friends;
+//        }
 }

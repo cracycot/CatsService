@@ -16,23 +16,27 @@ import java.util.HashMap;
 
 public class CatDAO extends DataBaseConnection implements DAO<Cat> {
 
-    private  static  Configuration configuration = new Configuration();
-    private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+    private  static  Configuration configuration = new Configuration().addAnnotatedClass(Cat.class).configure();
+    private static final SessionFactory sessionFactory = configuration.buildSessionFactory();
 
 
     public CatDAO() {
-        configuration.configure();
-        configuration.addAnnotatedClass(Cat.class);
     }
 
     @Override
     public void create(Cat cat) {
-        try (
-             Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.save(cat);
-            session.getTransaction().commit();
-            System.out.println("OK");
+            if (cat.getId() == -1) {
+                session.persist(cat);
+                session.getTransaction().commit();
+            }
+            else {
+                session.update(cat); // надо проверять корректность
+            }
+//            System.out.println("OK");
+//            System.out.println(cat.getId());
+
         } catch (Exception e) {
             System.err.println("Ошибка при создании Cat: " + e.getMessage());
         }
@@ -46,25 +50,24 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
             session.beginTransaction();
             cat = session.get(Cat.class, id);
             session.getTransaction().commit();
-            System.out.println("OK");
-
+//            System.out.println("OK");
         } catch (Exception e) {
             System.err.println("Ошибка при чтении Cat: " + e.getMessage());
         }
         return cat;
     }
+    public void update(int id) {
 
+    }
     @Override
     public void remove(int id) {
         try (Session session = sessionFactory.openSession()){
             session.beginTransaction();
-            Cat cat = read(id);
+            Cat cat = session.get(Cat.class, id);
             session.remove(cat);
         } catch (Exception e) {
             System.err.println("Ошибка при удалении Cat: " + e.getMessage());
         }
-
-
     }
 
 //    private void setFriends(int id, HashMap<Integer, Cat> friends, Connection connection) throws SQLException {

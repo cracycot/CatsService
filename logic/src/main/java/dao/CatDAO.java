@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.ObjectNotFoundException;
 import models.Cat;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -44,19 +45,31 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
     }
 
     @Override
-    public Cat read(int id)  {
+    public Cat read(int id) throws ObjectNotFoundException {
         Cat cat = new Cat();
-        try (Session session = sessionFactory.openSession()) {
+        try ( Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             cat = session.get(Cat.class, id);
             session.getTransaction().commit();
-//            System.out.println("OK");
-        } catch (Exception e) {
-            System.err.println("Ошибка при чтении Cat: " + e.getMessage());
+        }
+        catch (Exception e) {
+            System.err.println("Ошибка при удалении Cat: " + e.getMessage());
+        }
+        if (cat == null) {
+            throw new ObjectNotFoundException();
         }
         return cat;
     }
-    public void update(int id) {
+    @Override
+    public void update(Cat cat) {
+        try ( Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(cat);
+            session.getTransaction().commit();
+        }
+        catch (Exception e) {
+            System.err.println("Ошибка при удалении Cat: " + e.getMessage());
+        }
 
     }
     @Override
@@ -65,6 +78,7 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
             session.beginTransaction();
             Cat cat = session.get(Cat.class, id);
             session.remove(cat);
+            session.getTransaction().commit();
         } catch (Exception e) {
             System.err.println("Ошибка при удалении Cat: " + e.getMessage());
         }

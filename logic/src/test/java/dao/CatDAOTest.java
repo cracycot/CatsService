@@ -2,6 +2,7 @@ package dao;
 
 
 import dao.CatDAO;
+import exceptions.ObjectNotFoundException;
 import models.Cat;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,9 @@ import utils.TruncateTable;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class CatDAOTest {
     static CatDAO catDAO = new CatDAO();
@@ -34,7 +37,6 @@ public class CatDAOTest {
 
         cat0 = new Cat.Builder().
                 name("Ivan")
-                .id(0)
                 .idOwner(0)
                 .breed("kal")
                 .dateBirth(dateOfBirth0)
@@ -42,7 +44,6 @@ public class CatDAOTest {
 
         cat1 = new Cat.Builder().
                 name("Kirill")
-                .id(1)
                 .idOwner(1)
                 .breed("kamizyk")
                 .dateBirth(dateOfBirth1)
@@ -50,7 +51,6 @@ public class CatDAOTest {
 
         cat2 = new Cat.Builder().
                 name("Makar")
-                .id(2)
                 .idOwner(2)
                 .breed("beautiful")
                 .dateBirth(dateOfBirth2)
@@ -58,7 +58,6 @@ public class CatDAOTest {
 
         cat3 = new Cat.Builder().
                 name("Gosha")
-                .id(3)
                 .idOwner(3)
                 .breed("krinsh")
                 .dateBirth(dateOfBirth3)
@@ -66,73 +65,75 @@ public class CatDAOTest {
 
         cat4 = new Cat.Builder()
                 .name("Timur")
-                .id(4)
                 .idOwner(3)
                 .breed("krinh")
                 .dateBirth(dateOfBirth1)
                 .build();
 
-        HashMap<Integer, Cat> cat0Friends = new HashMap<>(); {
-            cat0Friends.put(1, cat1);
-            cat0Friends.put(2, cat2);
-            cat0Friends.put(3, cat3);
+        Set<Cat> cat0Friends = new HashSet<>(); {
+            cat0Friends.add(cat1);
+            cat0Friends.add(cat2);
+            cat0Friends.add(cat3);
         }
 
-        HashMap<Integer, Cat> cat1Friends = new HashMap<>(); {
-            cat1Friends.put(2, cat2);
-            cat1Friends.put(3, cat3);
+        Set<Cat> cat1Friends = new HashSet<>(); {
+            cat1Friends.add(cat2);
+            cat1Friends.add(cat3);
         }
 
-        HashMap<Integer, Cat> cat2Friends = new HashMap<>(); {
-            cat2Friends.put(1, cat1);
-            cat2Friends.put(3, cat3);
+        Set<Cat> cat2Friends = new HashSet<>(); {
+            cat2Friends.add(cat1);
+            cat2Friends.add(cat3);
         }
 
-        HashMap<Integer, Cat> cat3Friends = new HashMap<>(); {
-            cat3Friends.put(1, cat1);
+        Set<Cat> cat3Friends = new HashSet<>(); {
+            cat3Friends.add(cat1);
         }
 
-//        cat0.setFriends(cat0Friends);
-//        cat1.setFriends(cat1Friends);
-//        cat2.setFriends(cat2Friends);
-//        cat3.setFriends(cat3Friends);
+        cat0.setFriends(cat0Friends);
+        cat1.setFriends(cat1Friends);
+        cat2.setFriends(cat2Friends);
+        cat3.setFriends(cat3Friends);
 
         catDAO.create(cat0);
         catDAO.create(cat1);
         catDAO.create(cat2);
         catDAO.create(cat3);
+
+
+
+
+
+
     }
 
     @Test
     void create() throws SQLException {
-//        catDAO.create(cat4);
-//        Cat res = catDAO.read(4);
-//        boolean flag = Objects.equals(res.getBreed(), cat4.getBreed())  && res.getId() == cat4.getId() && Objects.equals(res.getDateBirth(), cat4.getDateBirth())  && res.getIdOwner() == cat4.getIdOwner();
-//        for (int key : res.getFriends().keySet()) {
-//            if (!Objects.equals(cat4.getFriends().get(key).getId(),res.getFriends().get(key).getId())) {
-//                flag = false;
-//            }
-//        }
-//        Assertions.assertEquals(true, flag);
+        String  name;
+        try {
+            name =  catDAO.read(cat3.getId()).getName();
+        } catch (ObjectNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Assertions.assertEquals(cat3.getName(),name);
     }
 
     @Test
     void read() throws SQLException {
-//        Cat res = catDAO.read(0);
-//        boolean flag = Objects.equals(res.getBreed(), cat0.getBreed())  && res.getId() == cat0.getId() && Objects.equals(res.getDateBirth(),cat0.getDateBirth())  && res.getIdOwner() == cat0.getIdOwner();
-//        for (int key : res.getFriends().keySet()) {
-//            if (!Objects.equals(cat0.getFriends().get(key).getId(),res.getFriends().get(key).getId())) {
-//                flag = false;
-//            }
-//        }
-//        Assertions.assertEquals(true, flag);
+        Cat result = null;
+        try {
+            result = catDAO.read(cat0.getId());
+        } catch (ObjectNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        boolean res = cat0.equals(result);
+        Assertions.assertTrue(res);
     }
 
     @Test
     void delete() throws SQLException {
-        catDAO.remove(1);
-        Cat res = catDAO.read(1);
-        Assertions.assertEquals(1, 1);
+        catDAO.remove(cat2.getId());
+        Assertions.assertThrows(ObjectNotFoundException.class, () -> catDAO.read(cat2.getId()));
     }
 
 }

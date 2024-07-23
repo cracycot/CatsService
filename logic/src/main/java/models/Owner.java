@@ -1,15 +1,21 @@
 package models;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Locale;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.*;
+
+@Entity
+@Table(name = "owners")
 public class Owner {
     private String name;
     private LocalDate dateBirth;
-    private static int idGenerate = 0;
-    private int id;
-    private HashMap<Integer, Cat> cats;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id = -1;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Cat> cats;
 
 
 
@@ -18,8 +24,6 @@ public class Owner {
 
         public Builder() {
             owner = new Owner();
-//            owner.id = idGenerate;
-//            idGenerate += 1;
         }
 
         public Builder name(String name) {
@@ -32,7 +36,7 @@ public class Owner {
             return this;
         }
 
-        public Builder cats(HashMap<Integer, Cat> cats) {
+        public Builder cats(Set<Cat> cats) {
             owner.cats = cats;
             return this;
         }
@@ -57,11 +61,11 @@ public class Owner {
         return name;
     }
 
-    public HashMap<Integer, Cat> getCats() {
+    public Set<Cat> getCats() {
         return cats;
     }
 
-    public void setCats(HashMap<Integer, Cat> cats) {
+    public void setCats(Set<Cat> cats) {
         this.cats = cats;
     }
     public void setName(String name) {
@@ -80,4 +84,35 @@ public class Owner {
         return id;
     }
 
+    public boolean equalsCats(Owner owner) {
+        HashSet<Integer> idFirstOwnerCats = new HashSet<>();
+        HashSet<Integer> idSecondOwnerCats = new HashSet<>();
+
+        for (Cat pets : this.getCats()) {
+            idFirstOwnerCats.add(pets.getId());
+        }
+
+        for (Cat pets : owner.getCats()) {
+            idSecondOwnerCats.add(pets.getId());
+        }
+
+        return idFirstOwnerCats.equals(idSecondOwnerCats);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Owner owner = (Owner) obj;
+        return Objects.equals(this.getId(), owner.getId()) && Objects.equals(this.getName(), owner.getName()) && Objects.equals(this.getDateBirth(), owner.getDateBirth())  && equalsCats(owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

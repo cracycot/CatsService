@@ -20,8 +20,8 @@ public class Cat {
 
     private String breed;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id")
     private Owner owner;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -160,7 +160,22 @@ public class Cat {
 
         return idFirstCatFriends.equals(idSecondCatFriends);
     }
-    public boolean equals(Cat cat) {
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Cat cat = (Cat) obj;
         return Objects.equals(this.getId(), cat.getId()) && Objects.equals(this.getBreed(), cat.getBreed()) && Objects.equals(this.getName(), cat.getName()) && getOwner().equals(cat.getOwner()) && Objects.equals(this.getDateBirth(), cat.getDateBirth())  && equalsFriends(cat);
     }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
 }

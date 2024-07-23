@@ -1,15 +1,25 @@
 package models;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Locale;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.*;
+
+@Entity
 public class Owner {
     private String name;
     private LocalDate dateBirth;
-    private static int idGenerate = 0;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private HashMap<Integer, Cat> cats;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable (
+        name = "cats",
+        joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "owner")
+    )
+    private Set<Cat> cats;
 
 
 
@@ -18,8 +28,6 @@ public class Owner {
 
         public Builder() {
             owner = new Owner();
-//            owner.id = idGenerate;
-//            idGenerate += 1;
         }
 
         public Builder name(String name) {
@@ -32,7 +40,7 @@ public class Owner {
             return this;
         }
 
-        public Builder cats(HashMap<Integer, Cat> cats) {
+        public Builder cats(Set<Cat> cats) {
             owner.cats = cats;
             return this;
         }
@@ -57,11 +65,11 @@ public class Owner {
         return name;
     }
 
-    public HashMap<Integer, Cat> getCats() {
+    public Set<Cat> getCats() {
         return cats;
     }
 
-    public void setCats(HashMap<Integer, Cat> cats) {
+    public void setCats(Set<Cat> cats) {
         this.cats = cats;
     }
     public void setName(String name) {
@@ -78,6 +86,24 @@ public class Owner {
 
     public int getId() {
         return id;
+    }
+
+    public boolean equalsCats(Owner owner) {
+        HashSet<Integer> idFirstOwnerCats = new HashSet<>();
+        HashSet<Integer> idSecondOwnerCats = new HashSet<>();
+
+        for (Cat pets : this.getCats()) {
+            idFirstOwnerCats.add(pets.getId());
+        }
+
+        for (Cat pets : owner.getCats()) {
+            idSecondOwnerCats.add(owner.getId());
+        }
+
+        return idFirstOwnerCats.equals(idSecondOwnerCats);
+    }
+    public boolean equals(Owner owner) {
+        return Objects.equals(this.getId(), owner.getId()) && Objects.equals(this.getName(), owner.getName()) && Objects.equals(this.getDateBirth(), owner.getDateBirth())  && equalsCats(owner);
     }
 
 }

@@ -6,6 +6,8 @@ import org.hibernate.annotations.CollectionId;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -15,27 +17,30 @@ public class Cat {
 
     @Column(name = "datebirth")
     private LocalDate dateBirth;
+
     private String breed;
 
-    @Column(name = "idowner")
-    private Integer idOwner;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(
-//            name = "catsfriends",
-//            joinColumns = @JoinColumn(name = "cat_id"),
-//            inverseJoinColumns = @JoinColumn(name = "friend_id")
-//    )
-//    Set<Cat> friends;
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Owner owner;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "catsfriends",
+            joinColumns = @JoinColumn(name = "cat_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    Set<Cat> friends = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id = -1;
 
-    public Cat(String name, LocalDate dateBirth, String breed, int idOwner, int id) {
+    public Cat(String name, LocalDate dateBirth, String breed, Owner  owner, int id) {
         this.name = name;
         this.dateBirth = dateBirth;
         this.breed = breed;
-        this.idOwner = idOwner;
+        this.owner = owner;
         this.id = id;
     }
 
@@ -47,9 +52,6 @@ public class Cat {
 
         public Builder() {
             cat = new Cat();
-            // проблема с БД
-//            cat.id = idGenerate;
-//            idGenerate += 1;
         }
 
         public Builder name(String name) {
@@ -67,8 +69,8 @@ public class Cat {
             return this;
         }
 
-        public Builder idOwner(int idOwner) {
-            cat.idOwner = idOwner;
+        public Builder owner(Owner owner) {
+            cat.owner = owner;
             return this;
         }
 
@@ -78,10 +80,10 @@ public class Cat {
             return this;
         }
 
-//        public Builder friends(Set<Cat> friends) {
-//            cat.friends = friends;
-//            return this;
-//        }
+        public Builder friends(Set<Cat> friends) {
+            cat.friends = friends;
+            return this;
+        }
 
         public Cat build() {
             return cat;
@@ -91,7 +93,7 @@ public class Cat {
 
     @Override
     public String toString() {
-        return name + " " + dateBirth + " " + breed + " " + idOwner + " " + id;
+        return name + " " + dateBirth + " " + breed + " " + owner.getId() + " " + id;
     }
 
     public int getId() {
@@ -118,12 +120,12 @@ public class Cat {
         this.breed = breed;
     }
 
-    public int getIdOwner() {
-        return idOwner;
+    public Owner getOwner() {
+        return owner;
     }
 
-    public void setIdOwner(int idOwner) {
-        this.idOwner = idOwner;
+    public void setIdOwner(Owner owner) {
+        this.owner = owner;
     }
 
     public LocalDate getDateBirth() {
@@ -136,11 +138,29 @@ public class Cat {
     }
 
 
-//        public Set<Cat> getFriends() {
-//            return friends;
-//        }
-//
-//        public void setFriends(Set<Cat> friends) {
-//            this.friends = friends;
-//        }
+    public Set<Cat> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<Cat> friends) {
+        this.friends = friends;
+    }
+
+    public boolean equalsFriends(Cat cat) {
+        HashSet<Integer> idFirstCatFriends = new HashSet<>();
+        HashSet<Integer> idSecondCatFriends = new HashSet<>();
+
+        for (Cat friend : this.getFriends()) {
+            idFirstCatFriends.add(friend.getId());
+        }
+
+        for (Cat friend : cat.getFriends()) {
+            idSecondCatFriends.add(friend.getId());
+        }
+
+        return idFirstCatFriends.equals(idSecondCatFriends);
+    }
+    public boolean equals(Cat cat) {
+        return Objects.equals(this.getId(), cat.getId()) && Objects.equals(this.getBreed(), cat.getBreed()) && Objects.equals(this.getName(), cat.getName()) && getOwner().equals(cat.getOwner()) && Objects.equals(this.getDateBirth(), cat.getDateBirth())  && equalsFriends(cat);
+    }
 }

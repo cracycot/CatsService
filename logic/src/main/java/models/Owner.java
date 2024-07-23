@@ -6,18 +6,19 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Entity
+@Table(name = "owners")
 public class Owner {
     private String name;
     private LocalDate dateBirth;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id = -1;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable (
         name = "cats",
         joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "owner")
+            inverseJoinColumns = @JoinColumn(name = "owner_id")
     )
     private Set<Cat> cats;
 
@@ -102,8 +103,21 @@ public class Owner {
 
         return idFirstOwnerCats.equals(idSecondOwnerCats);
     }
-    public boolean equals(Owner owner) {
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Owner owner = (Owner) obj;
         return Objects.equals(this.getId(), owner.getId()) && Objects.equals(this.getName(), owner.getName()) && Objects.equals(this.getDateBirth(), owner.getDateBirth())  && equalsCats(owner);
     }
 
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

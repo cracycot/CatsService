@@ -169,8 +169,9 @@ public class Cat {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
+
         Cat cat = (Cat) obj;
-        return Objects.equals(this.getId(), cat.getId()) && Objects.equals(this.getBreed(), cat.getBreed()) && Objects.equals(this.getName(), cat.getName()) && getOwner().equals(cat.getOwner()) && Objects.equals(this.getDateBirth(), cat.getDateBirth())  && equalsFriends(cat);
+        return Objects.equals(this.getId(), cat.getId()) && Objects.equals(this.getBreed(), cat.getBreed()) && Objects.equals(this.getName(), cat.getName()) && getOwner().equals(cat.getOwner());// && Objects.equals(this.getDateBirth(), cat.getDateBirth())  && equalsFriends(cat);
     }
 
     @Override

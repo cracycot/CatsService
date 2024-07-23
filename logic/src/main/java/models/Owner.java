@@ -14,12 +14,7 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = -1;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable (
-        name = "cats",
-        joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "owner_id")
-    )
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Cat> cats;
 
 
@@ -98,7 +93,7 @@ public class Owner {
         }
 
         for (Cat pets : owner.getCats()) {
-            idSecondOwnerCats.add(owner.getId());
+            idSecondOwnerCats.add(pets.getId());
         }
 
         return idFirstOwnerCats.equals(idSecondOwnerCats);

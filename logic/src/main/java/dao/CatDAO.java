@@ -8,14 +8,14 @@ import org.hibernate.cfg.Configuration;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import utils.DataBaseConnection;
+import utils.HibernateConfiguration;
 
+import java.util.stream.Stream;
 
 
 public class CatDAO extends DataBaseConnection implements DAO<Cat> {
-
-    private  static final Configuration configuration = new Configuration().addAnnotatedClass(Cat.class).configure();
     private static final Logger log = LoggerFactory.getLogger(CatDAO.class);
-    private static final SessionFactory sessionFactory = configuration.buildSessionFactory();
+    private static final SessionFactory sessionFactory = HibernateConfiguration.createSessionFactory();
 
 
     @Override

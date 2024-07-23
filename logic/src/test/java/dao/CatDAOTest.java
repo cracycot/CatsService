@@ -4,6 +4,8 @@ package dao;
 import dao.CatDAO;
 import exceptions.ObjectNotFoundException;
 import models.Cat;
+import models.Owner;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,10 @@ import java.util.Set;
 
 public class CatDAOTest {
     static CatDAO catDAO = new CatDAO();
+    static OwnerDAO ownerDAO = new OwnerDAO();
+
+    static Owner owner0;
+    static Owner owner1;
     static Cat cat0;
     static  Cat cat1;
     static  Cat cat2;
@@ -26,6 +32,7 @@ public class CatDAOTest {
     @BeforeEach
     void createCats() throws SQLException {
         TruncateTable truncateTable = new TruncateTable();
+        truncateTable.truncate("owners");
         truncateTable.truncate("cats");
         truncateTable.truncate("catsfriends");
 
@@ -35,37 +42,47 @@ public class CatDAOTest {
         LocalDate dateOfBirth2 = LocalDate.of(2013, 3, 12);
         LocalDate dateOfBirth3 = LocalDate.of(2018, 11, 9);
 
+        owner0 = new Owner.Builder()
+                .name("Timur")
+                .dateBirth(dateOfBirth0)
+                .build();
+
+        owner1 = new Owner.Builder()
+                .name("Egor")
+                .dateBirth(dateOfBirth1)
+                .build();
+//        System.out.println(owner1.getId());
         cat0 = new Cat.Builder().
                 name("Ivan")
-                .idOwner(0)
+                .owner(owner0)
                 .breed("kal")
                 .dateBirth(dateOfBirth0)
                 .build();
 
         cat1 = new Cat.Builder().
                 name("Kirill")
-                .idOwner(1)
+                .owner(owner0)
                 .breed("kamizyk")
                 .dateBirth(dateOfBirth1)
                 .build();
 
         cat2 = new Cat.Builder().
                 name("Makar")
-                .idOwner(2)
+                .owner(owner0)
                 .breed("beautiful")
                 .dateBirth(dateOfBirth2)
                 .build();
 
         cat3 = new Cat.Builder().
                 name("Gosha")
-                .idOwner(3)
+                .owner(owner1)
                 .breed("krinsh")
                 .dateBirth(dateOfBirth3)
                 .build();
 
         cat4 = new Cat.Builder()
                 .name("Timur")
-                .idOwner(3)
+                .owner(owner0)
                 .breed("krinh")
                 .dateBirth(dateOfBirth1)
                 .build();
@@ -87,23 +104,35 @@ public class CatDAOTest {
         }
 
         Set<Cat> cat3Friends = new HashSet<>(); {
-            cat3Friends.add(cat1);
+//            cat3Friends.add(cat1);
         }
+
+        Set<Cat> petsOwner0 =  new HashSet<>();
+        petsOwner0.add(cat0);
+        petsOwner0.add(cat2);
+        petsOwner0.add(cat4);
+        petsOwner0.add(cat1);
+
+        Set<Cat> petsOwner1 = new HashSet<>();
+
+        petsOwner1.add(cat3);
+
 
         cat0.setFriends(cat0Friends);
         cat1.setFriends(cat1Friends);
         cat2.setFriends(cat2Friends);
         cat3.setFriends(cat3Friends);
 
+
+        owner0.setCats(petsOwner0);
+        owner1.setCats(petsOwner1);
+
         catDAO.create(cat0);
         catDAO.create(cat1);
         catDAO.create(cat2);
         catDAO.create(cat3);
-
-
-
-
-
+        ownerDAO.create(owner1);
+        System.out.println(owner1.getId());
 
     }
 

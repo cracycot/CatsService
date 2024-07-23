@@ -8,7 +8,8 @@ public class TruncateTable extends DataBaseConnection {
     public  void truncate(String tableName) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "TRUNCATE TABLE " + tableName;
+        String sql = "TRUNCATE TABLE " + tableName + " RESTART IDENTITY CASCADE";
+
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();

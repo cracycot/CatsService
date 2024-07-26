@@ -135,7 +135,6 @@ public class CatDAOTest {
         System.out.println(owner1.getId());
 
     }
-
     @Test
     void create() throws SQLException {
         String  name;

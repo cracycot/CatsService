@@ -18,6 +18,10 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
     private static final SessionFactory sessionFactory = HibernateConfiguration.createSessionFactory();
 
 
+    public void CatDao() {
+
+    }
+
     @Override
     public void create(Cat cat) {
         try (Session session = sessionFactory.openSession()) {

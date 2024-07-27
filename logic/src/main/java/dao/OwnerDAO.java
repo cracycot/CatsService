@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import utils.DataBaseConnection;
 import utils.HibernateConfiguration;
 
@@ -19,6 +20,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+ @Component
 public class OwnerDAO extends DataBaseConnection implements DAO<Owner> {
 
     private static final Logger log = LoggerFactory.getLogger(OwnerDAO.class);

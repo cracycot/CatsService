@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
- @Component
+@Component
 public class OwnerDAO extends DataBaseConnection implements DAO<Owner> {
 
     private static final Logger log = LoggerFactory.getLogger(OwnerDAO.class);

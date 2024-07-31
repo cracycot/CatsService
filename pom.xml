@@ -55,7 +55,6 @@
       <artifactId>spring-boot-starter-web</artifactId>
       <version>3.3.1</version>
     </dependency>
-
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
@@ -66,5 +65,5 @@
     <module>view</module>
     <module>logic</module>
   </modules>
-  
+
 </project>

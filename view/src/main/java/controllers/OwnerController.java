@@ -11,8 +11,8 @@ public class OwnerController {
     OwnerService ownerService;
 
     @GetMapping("/get")
-    public void getOwnerById() {
-
+    public void getOwnerById(@RequestParam("id") Long id) {
+        return;
     }
 
     @PostMapping("/create")

@@ -1,28 +1,38 @@
 package services;
 
-import dao.CatDAO;
-import dao.DAO;
 import exceptions.ObjectNotFoundException;
+import models.Cat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import repositories.CatRepository;
 
 //@Service
 @Component
 @Service
 public class CatService {
 
-    CatDAO catDAO;
+    CatRepository catRepository;
 
-    public CatDAO getCatDAO() {
-        return catDAO;
+    public void createcat(Cat cat) {
+        catRepository.save(cat);
+    }
+    public Cat getcatById(long id) throws ObjectNotFoundException {
+        return catRepository.getReferenceById(id);
     }
 
-    @Autowired
-   // @Qualifier("catDAO") //уточненине для спринга если наследуемый интерфейс имеет две реализации в бинах
-    public void setCatDAO(CatDAO catDAO  ) throws ObjectNotFoundException {
-        this.catDAO = catDAO;
+    public void deletecat(Cat cat) {
+        catRepository.delete(cat);
+    }
+
+    public void updatecat(Cat cat) {
+        catRepository.save(cat); //?
+    }
+
+
+   // @Qualifier("catRepository") //уточненине для спринга если наследуемый интерфейс имеет две реализации в бинах
+    public CatService(@Autowired CatRepository catRepository  ) throws ObjectNotFoundException {
+        this.catRepository = catRepository;
     }
 
 }

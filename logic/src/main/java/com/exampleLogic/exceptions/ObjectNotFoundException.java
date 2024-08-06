@@ -1,4 +1,4 @@
-package com.example.exceptions;
+package com.exampleLogic.exceptions;
 
 public class ObjectNotFoundException extends Exception {
     public ObjectNotFoundException() {

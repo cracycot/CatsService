@@ -1,7 +1,7 @@
-package com.example.utils;
+package com.exampleLogic.utils;
 
-import com.example.models.Cat;
-import com.example.models.Owner;
+import com.exampleLogic.models.Cat;
+import com.exampleLogic.models.Owner;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 

@@ -1,21 +1,19 @@
 package dao;
 
 
-import dao.CatDAO;
-import exceptions.ObjectNotFoundException;
-import models.Cat;
-import models.Owner;
-import org.checkerframework.checker.units.qual.C;
+import com.exampleLogic.dao.CatDAO;
+import com.exampleLogic.dao.OwnerDAO;
+import com.exampleLogic.exceptions.ObjectNotFoundException;
+import com.exampleLogic.models.Cat;
+import com.exampleLogic.models.Owner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.TruncateTable;
+import com.exampleLogic.utils.TruncateTable;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class CatDAOTest {

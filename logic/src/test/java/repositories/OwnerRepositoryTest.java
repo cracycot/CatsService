@@ -1,2 +1,4 @@
-package repositories;public class OwnerRepositoryTest {
+package repositories;
+
+public class OwnerRepositoryTest {
 }

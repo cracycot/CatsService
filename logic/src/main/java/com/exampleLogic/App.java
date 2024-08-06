@@ -1,6 +1,7 @@
-package com.example;
+package com.exampleLogic;
 
-import com.example.models.Cat;
+import com.exampleLogic.models.Cat;
+import com.exampleLogic.utils.TruncateTable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,33 +14,10 @@ import java.util.Set;
 
 public class App {
     public static void main( String[] args ) throws SQLException {
-        Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(Cat.class);
-        configuration.configure();
-        LocalDate dateOfBirth0 = LocalDate.of(2005, 12, 29);
-        Set<Cat> cat1Friends = new HashSet<>();
+        TruncateTable truncateTable = new TruncateTable();
+        truncateTable.truncate("cats");
+        truncateTable.truncate("owners");
 
-        Cat cat2 = new Cat.Builder().
-                name("Kirill")
-                .breed("kamizyk")
-                .dateBirth(dateOfBirth0)
-
-                .build();
-        cat1Friends.add(cat2);
-        Cat cat1 = new Cat.Builder().breed("skfkdskf")
-                .friends(cat1Friends)
-                .dateBirth(dateOfBirth0)
-                .name("Misha").build();
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        try {
-            Transaction transaction = session.beginTransaction();
-            session.persist(cat1);
-            transaction.commit();
-            System.out.println("OK");
-        } finally {
-            session.close();
-        }
 
     }
 }

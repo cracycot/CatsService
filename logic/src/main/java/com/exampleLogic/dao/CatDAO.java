@@ -1,9 +1,9 @@
-package com.example.dao;
+package com.exampleLogic.dao;
 
-import com.example.exceptions.ObjectNotFoundException;
-import com.example.models.Cat;
-import com.example.utils.DataBaseConnection;
-import com.example.utils.HibernateConfiguration;
+import com.exampleLogic.exceptions.ObjectNotFoundException;
+import com.exampleLogic.models.Cat;
+import com.exampleLogic.utils.DataBaseConnection;
+import com.exampleLogic.utils.HibernateConfiguration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;

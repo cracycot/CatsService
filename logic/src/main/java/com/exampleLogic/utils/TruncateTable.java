@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.exampleLogic.utils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

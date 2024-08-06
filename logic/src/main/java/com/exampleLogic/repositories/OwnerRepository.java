@@ -1,6 +1,6 @@
-package com.example.repositories;
+package com.exampleLogic.repositories;
 
-import com.example.models.Owner;
+import com.exampleLogic.models.Owner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

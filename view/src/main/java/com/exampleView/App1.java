@@ -1,4 +1,4 @@
-package com.exampleLogic;
+package com.exampleView;
 
 import com.exampleLogic.exceptions.ObjectNotFoundException;
 import org.springframework.boot.SpringApplication;

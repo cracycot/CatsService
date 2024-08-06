@@ -1,6 +1,6 @@
-package com.example.dao;
+package com.exampleLogic.dao;
 
-import com.example.exceptions.ObjectNotFoundException;
+import com.exampleLogic.exceptions.ObjectNotFoundException;
 
 import java.sql.SQLException;
 

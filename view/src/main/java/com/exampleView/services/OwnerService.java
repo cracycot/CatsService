@@ -1,4 +1,4 @@
-package com.exampleLogic.services;
+package com.exampleView.services;
 
 import com.exampleLogic.dao.OwnerDAO;
 import com.exampleLogic.exceptions.ObjectNotFoundException;

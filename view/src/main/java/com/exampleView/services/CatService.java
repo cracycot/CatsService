@@ -1,4 +1,4 @@
-package com.exampleLogic.services;
+package com.exampleView.services;
 
 import com.exampleLogic.dao.CatDAO;
 import com.exampleLogic.exceptions.ObjectNotFoundException;
@@ -55,6 +55,7 @@ public class CatService {
    // @Qualifier|("catDAO") //уточненине для спринга если наследуемый интерфейс имеет две реализации в бинах
     public void setCatRepository(CatRepository catRepository ) throws ObjectNotFoundException {
         this.catRepository = catRepository;
+//        System.out.println(catRepository.findById(1l).get().getId());
     }
 
 }

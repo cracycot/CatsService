@@ -1,0 +1,8 @@
+[17:35:46,269] INFO [org.hibernate.cache.internal.RegionFactoryInitiator: 50] HHH000026: Second-level cache disabled
+[17:35:46,343] WARN [org.hibernate.orm.connections.pooling: 81] HHH10001002: Using built-in connection pool (not intended for production use)
+[17:35:46,355] INFO [org.hibernate.orm.connections.pooling: 136] HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+[17:35:46,355] INFO [org.hibernate.orm.connections.pooling: 158] HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/catsandowners]
+[17:35:46,355] INFO [org.hibernate.orm.connections.pooling: 167] HHH10001001: Connection properties: {driver _class=org.postgresql.Driver, user=kirilllesniak}
+[17:35:46,355] INFO [org.hibernate.orm.connections.pooling: 171] HHH10001003: Autocommit mode: false
+[17:35:46,356] INFO [org.hibernate.orm.connections.pooling: 372] HHH10001115: Connection pool size: 20 (min=1)
+[17:35:47,072] INFO [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator: 59] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)

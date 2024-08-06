@@ -1,0 +1,6 @@
+[17:55:30,987] INFO [org.hibernate.orm.connections.pooling: 158] HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/catsandowners]
+[17:55:30,988] INFO [org.hibernate.orm.connections.pooling: 167] HHH10001001: Connection properties: {driver _class=org.postgresql.Driver, user=kirilllesniak}
+[17:55:30,988] INFO [org.hibernate.orm.connections.pooling: 171] HHH10001003: Autocommit mode: false
+[17:55:30,988] INFO [org.hibernate.orm.connections.pooling: 372] HHH10001115: Connection pool size: 20 (min=1)
+[17:55:31,078] INFO [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator: 59] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[17:55:31,527] ERROR [dao.CatDAO: 60] Cat did not found id = 1

@@ -1,5 +1,6 @@
 package com.exampleLogic.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class Cat {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
+    @JsonBackReference
     private Owner owner;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -1,8 +1,12 @@
 package com.exampleView.controllers;
 
 
+import com.exampleLogic.dao.CatDAO;
+import com.exampleLogic.dto.CatDTO;
 import com.exampleLogic.models.Cat;
 import com.exampleView.services.CatService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,20 +17,21 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/cats")
 public class CatController {
-    com.exampleView.services.CatService CatService;
+    private static final Logger log = LoggerFactory.getLogger(CatDAO.class);
+    com.exampleView.services.CatService catService;
 
 
     @GetMapping("/get")
     public ResponseEntity<?> getCatById(@RequestParam Long id) {
         try {
-            Optional<Cat> catOptional = CatService.getCatById(id);
+            Optional<Cat> catOptional = catService.getCatById(id);
             if (!catOptional.isPresent()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Владелец не найден");
             }
             Cat cat = catOptional.get();
-            return ResponseEntity.ok().body(cat);
+            return ResponseEntity.ok().body(catService.fromCatToCatDTO(cat));
         } catch (Exception e) {
-//             logger.error("Ошибка при получении владельца", e);
+             log.error("Ошибка при получении владельца", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
         }
     }
@@ -35,12 +40,12 @@ public class CatController {
         return ResponseEntity.ok().body("доступ получен");
     }
     @PostMapping("/create")
-    public  ResponseEntity<?> createCat(@RequestBody Cat cat) {
+    public  ResponseEntity<?> createCat(@RequestBody CatDTO catDTO) {
         try {
-            CatService.createCat(cat);
+            catService.createCat(catService.fromCatDTOToCat(catDTO));
             return ResponseEntity.ok().body("Владелец сохранен");
         }  catch (Exception e) {
-//             logger.error("Ошибка при получении владельца", e);
+             log.error("Ошибка при получении владельца", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
         }
 
@@ -49,33 +54,33 @@ public class CatController {
     @GetMapping("/delete")
     public ResponseEntity<?>  deleteCat(@RequestParam Long id) {
         try {
-            CatService.deleteCat(id);
+            catService.deleteCat(id);
             return ResponseEntity.ok().body("Владелец удален");
         }
         catch (Exception e) {
-//             logger.error("Ошибка при получении владельца", e);
+             log.error("Ошибка при получении владельца", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?>  updateCat(@RequestBody Cat Cat) {
+    public ResponseEntity<?>  updateCat(@RequestBody CatDTO catDTO) {
         try {
-            CatService.updateCat(Cat);
+            catService.updateCat(catService.fromCatDTOToCat(catDTO));
             return ResponseEntity.ok().body("Владелец сохранен");
         }  catch (Exception e) {
-//             logger.error("Ошибка при получении владельца", e);
+             log.error("Ошибка при получении владельца", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
         }
     }
 
     public com.exampleView.services.CatService getCatService() {
-        return CatService;
+        return catService;
     }
 
     @Autowired
     public void setCatService(CatService CatService) {
-        this.CatService = CatService;
+        this.catService = CatService;
     }
 
 }

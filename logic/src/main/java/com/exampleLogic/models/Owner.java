@@ -17,7 +17,6 @@ public class Owner {
     private Integer id = -1;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
     private Set<Cat> cats;
 
 

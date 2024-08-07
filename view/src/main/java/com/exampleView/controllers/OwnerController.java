@@ -1,35 +1,44 @@
 package com.exampleView.controllers;
 
 
+import com.exampleLogic.dao.CatDAO;
+import com.exampleLogic.dto.OwnerDTO;
 import com.exampleLogic.models.Owner;
 import com.exampleView.services.OwnerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/owners")
 public class OwnerController {
+    private static final Logger log = LoggerFactory.getLogger(CatDAO.class);
     OwnerService ownerService;
 
     @GetMapping("/get")
-    public ResponseEntity<?> getOwnerById(@RequestParam Integer id) {
+    public ResponseEntity<?> getOwnerById(@RequestParam Long id) {
         try {
-            Owner owner = ownerService.getOwnerById(id);
-            if (owner == null) {
+            Optional<Owner> ownerOptional = ownerService.getOwnerById(id);
+            if (!ownerOptional.isPresent()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Владелец не найден");
             }
-            return ResponseEntity.ok().body(owner);
+            Owner owner = ownerOptional.get();
+
+            return ResponseEntity.ok().body(ownerService.fromOwnerToOwnerDTO(owner));
         } catch (Exception e) {
-//             logger.error("Ошибка при получении владельца", e);
+             log.error("Ошибка при получении владельца", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
         }
     }
     @PostMapping("/create")
-    public  ResponseEntity<?> createOwner(@RequestBody Owner owner) {
+    public  ResponseEntity<?> createOwner(@RequestBody OwnerDTO ownerDTO) {
         try {
-            ownerService.createOwner(owner);
+            ownerService.createOwner(ownerService.fromOwnerDTOToOwner(ownerDTO));
             return ResponseEntity.ok().body("Владелец сохранен");
         }  catch (Exception e) {
 //             logger.error("Ошибка при получении владельца", e);
@@ -39,7 +48,7 @@ public class OwnerController {
     }
 
     @GetMapping("/delete")
-    public ResponseEntity<?>  deleteOwner(@RequestParam Integer id) {
+    public ResponseEntity<?>  deleteOwner(@RequestParam Long id) {
         try {
             ownerService.deleteOwner(id);
             return ResponseEntity.ok().body("Владелец удален");
@@ -51,9 +60,9 @@ public class OwnerController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?>  updateOwner(@RequestBody Owner owner) {
+    public ResponseEntity<?>  updateOwner(@RequestBody OwnerDTO ownerDTO) {
         try {
-            ownerService.updateOwner(owner);
+            ownerService.updateOwner(ownerService.fromOwnerDTOToOwner(ownerDTO));
             return ResponseEntity.ok().body("Владелец сохранен");
         }  catch (Exception e) {
 //             logger.error("Ошибка при получении владельца", e);

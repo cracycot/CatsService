@@ -20,7 +20,6 @@ public class Cat {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
-    @JsonBackReference
     private Owner owner;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

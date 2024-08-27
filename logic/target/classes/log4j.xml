@@ -18,7 +18,6 @@
         <layout class="org.apache.log4j.PatternLayout">
             <param name = "conversionPattern" value="[%d{HH:mm:ss,SSS}] %p [%c: %L] %m%n"/>
         </layout>
-
         <filter class="org.apache.log4j.varia.LevelRangeFilter">
             <param name="LevelMin" value="ALL"/>
         </filter>

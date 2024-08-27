@@ -1,4 +1,4 @@
-package dao;
+package com.exampleLogic.dao;
 
 
 import com.exampleLogic.dao.CatDAO;

@@ -20,47 +20,47 @@ import java.util.Properties;
 @ComponentScan(basePackages = {"com.exampleView", "com.exampleLogic"})
 @EnableJpaRepositories(basePackages = {"com.exampleLogic"})
 public class SpringConfig {
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-//        LocalContainerEntityManagerFactoryBean em
-//                = new LocalContainerEntityManagerFactoryBean();
-//        em.setDataSource(dataSource());
-//        em.setPackagesToScan("com.exampleLogic.repositories", "com.exampleLogic.models");
-//
-//        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//        em.setJpaVendorAdapter(vendorAdapter);
-//        em.setJpaProperties(additionalProperties());
-//
-//        return em;
-//    }
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//
-//        dataSource.setDriverClassName("org.postgresql.Driver");
-//        dataSource.setUsername("kirilllesniak");
-//        dataSource.setPassword("");
-//        dataSource.setUrl(
-//                "jdbc:postgresql://localhost:5432/catsandowners?useUnicode=true&useSSL=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
-//        return dataSource;
-//    }
-//    @Bean
-//    public PlatformTransactionManager transactionManager() {
-//        JpaTransactionManager transactionManager = new JpaTransactionManager();
-//        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-//
-//        return transactionManager;
-//    }
-//
-//    @Bean
-//    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-//        return new PersistenceExceptionTranslationPostProcessor();
-//    }
-//
-//    Properties additionalProperties() {
-//        Properties properties = new Properties();
-//        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-//        return properties;
-//    }
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean em
+                = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource());
+        em.setPackagesToScan("com.exampleLogic.repositories", "com.exampleLogic.models");
+
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaProperties(additionalProperties());
+
+        return em;
+    }
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUsername("kirilllesniak");
+        dataSource.setPassword("");
+        dataSource.setUrl(
+                "jdbc:postgresql://localhost:5432/catsandowners?useUnicode=true&useSSL=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+        return dataSource;
+    }
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+
+        return transactionManager;
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    Properties additionalProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        return properties;
+    }
 }

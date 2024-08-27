@@ -25,10 +25,10 @@ public class OwnerController {
         try {
             Optional<Owner> ownerOptional = ownerService.getOwnerById(id);
             if (!ownerOptional.isPresent()) {
+                log.error("Ошибка при получении владельца");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Владелец не найден");
             }
             Owner owner = ownerOptional.get();
-
             return ResponseEntity.ok().body(ownerService.fromOwnerToOwnerDTO(owner));
         } catch (Exception e) {
              log.error("Ошибка при получении владельца", e);
@@ -39,9 +39,10 @@ public class OwnerController {
     public  ResponseEntity<?> createOwner(@RequestBody OwnerDTO ownerDTO) {
         try {
             ownerService.createOwner(ownerService.fromOwnerDTOToOwner(ownerDTO));
+            log.info("Владелец сохранен");
             return ResponseEntity.ok().body("Владелец сохранен");
         }  catch (Exception e) {
-//             logger.error("Ошибка при получении владельца", e);
+             log.error("Ошибка при сохранении владельца", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
         }
 
@@ -54,7 +55,7 @@ public class OwnerController {
             return ResponseEntity.ok().body("Владелец удален");
         }
         catch (Exception e) {
-//             logger.error("Ошибка при получении владельца", e);
+             log.error("Ошибка при получении владельца", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
         }
     }

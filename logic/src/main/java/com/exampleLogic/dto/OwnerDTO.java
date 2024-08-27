@@ -19,7 +19,7 @@ public class OwnerDTO {
     private Set<Long> catsId = new HashSet<>();
 
     public static class Builder {
-        private static OwnerDTO ownerDTO = new OwnerDTO(); 
+        private static OwnerDTO ownerDTO = new OwnerDTO();
 
         public OwnerDTO.Builder name(String name) {
             ownerDTO.name = name;

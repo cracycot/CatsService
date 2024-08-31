@@ -19,7 +19,8 @@ public class Owner {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Cat> cats;
 
-
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    private User user;
 
     public static class Builder {
         public static Owner owner;

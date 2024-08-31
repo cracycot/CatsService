@@ -8,34 +8,14 @@ import javax.sql.rowset.Joinable;
 import java.util.Collection;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     private Long id;
 
-    String name;
+    private String name;
 
-    private String username;
     private String password;
-
-    private Collection<? extends GrantedAuthority> authorities;
-
-    // Конструкторы, геттеры и сеттеры...
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
 
     public String getPassword() {
         return password;
@@ -44,9 +24,9 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-//    @OneToOne(mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private Owner owner;
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
 
     public String getName() {
         return name;

@@ -15,11 +15,6 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
     private static final Logger log = LoggerFactory.getLogger(CatDAO.class);
     private static final SessionFactory sessionFactory = HibernateConfiguration.createSessionFactory();
 
-
-    public void CatDao() {
-
-    }
-
     @Override
     public void create(Cat cat) {
         try (Session session = sessionFactory.openSession()) {
@@ -33,7 +28,6 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
                 session.merge(cat);
                 log.debug("Cat update {}", cat);
             }
-
         } catch (Exception e) {
             log.error("Error in made {}", cat);
             System.err.println("Error in made Cat: " + e.getMessage());
@@ -49,8 +43,7 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
             cat = session.get(Cat.class, id);
             session.getTransaction().commit();
             log.debug("Cat was read {}", cat);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Cat was not read {}", cat);
             System.err.println("Ошибка при удалении Cat: " + e.getMessage());
         }
@@ -67,8 +60,7 @@ public class CatDAO extends DataBaseConnection implements DAO<Cat> {
             session.merge(cat);
             session.getTransaction().commit();
             log.debug("Cat was update {}", cat);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Cat did not update {}", cat);
             System.err.println("Error in update cat" + e.getMessage());
         }

@@ -17,8 +17,6 @@ public class App {
         TruncateTable truncateTable = new TruncateTable();
         truncateTable.truncate("cats");
         truncateTable.truncate("owners");
-
-
     }
 }
  
